@@ -1,0 +1,58 @@
+<!-- //template  https://js.devexpress.com/Demos/WidgetsGallery/Demo/RangeSelector/DateTimeScaleLightweight/Angular/Light/
+//install these packages
+//npx -p devextreme-cli devextreme add devextreme-angular -->
+<dx-toolbar [items]="toolbarContent"> </dx-toolbar>
+<dx-drawer [openedStateMode]="selectedOpenMode" [position]="selectedPosition" [revealMode]="selectedRevealMode" template="template" [(opened)]="isDrawerOpen" [height]="400" [closeOnOutsideClick]="true">
+    <div *dxTemplate="let data of 'template'" style="width: 200px">
+        <dx-list class="panel-list dx-theme-accent-as-background-color" [dataSource]="navigation" [hoverStateEnabled]="false" [activeStateEnabled]="false" [focusStateEnabled]="false">
+        </dx-list>
+    </div>
+    <div id="content" class="dx-theme-background-color" [innerHTML]="text"></div>
+</dx-drawer>
+<div class="options">
+    <div class="caption">Options</div>
+    <div class="options-container">
+        <div class="option">
+            <label>Opened state mode</label>
+            <dx-radio-group [(value)]="selectedOpenMode" [items]="showModes" layout="horizontal">
+            </dx-radio-group>
+        </div>
+        <div class="option">
+            <label>Position</label>
+            <dx-radio-group [(value)]="selectedPosition" [items]="positionModes" layout="horizontal">
+            </dx-radio-group>
+        </div>
+        <div *ngIf="selectedOpenMode !== 'push'" class="option">
+            <label>Reveal mode</label>
+            <dx-radio-group [(value)]="selectedRevealMode" [items]="showSubmenuModes" layout="horizontal">
+            </dx-radio-group>
+        </div>
+    </div>
+</div>
+
+
+<!-- date scale filter  -->
+
+<div id="range-selector-demo">
+    <dx-range-selector id="range-selector" [value]="[selectedStartValue, selectedEndValue]" title="Select a Vacation Period" [dataSource]="employees" dataSourceField="BirthYear" (onValueChanged)="onValueChanged($event)">
+
+
+        <dxo-margin [top]="50">
+
+        </dxo-margin>
+        <dxo-scale [startValue]="startValue" [endValue]="endValue" minorTickInterval="day" tickInterval="week" minRange="week" maxRange="month">
+            <dxo-minor-tick [visible]="false"></dxo-minor-tick>
+        </dxo-scale>
+        <dxo-slider-marker format="monthAndDay"></dxo-slider-marker>
+        <dxo-behavior callValueChanged="onMoving"></dxo-behavior>
+    </dx-range-selector>
+
+    <p>Value: {{start}}</p>
+    <p>Value: {{end}}</p>
+
+    <!-- table -->
+    <h2>Selected Employees</h2>
+    <dx-data-grid id="gridContainer" [dataSource]="selectedEmployees" [columns]="['FirstName', 'LastName', 'BirthYear', 'City', 'Title']" [showBorders]="true" [columnAutoWidth]="true">
+    </dx-data-grid>
+
+</div>
